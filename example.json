@@ -1,0 +1,63 @@
+{
+    "personal": {
+        "name": "",
+        "email": "",
+        "website": "",
+        "phone": "",
+        "socials": [
+            ""
+        ]
+    },
+    "skills": {
+        "languages": [
+            ""
+        ],
+        "tools": [
+            ""
+        ],
+        "topics": [
+            ""
+        ]
+    },
+    "publications": [
+        {
+            "title": "",
+            "role": "",
+            "link": "",
+            "body": [
+                ""
+            ]
+        }
+    ],
+    "education": [
+        {
+            "title": "",
+            "location": "",
+            "duration": "",
+            "body": [
+                ""
+            ]
+        }
+    ],
+    "jobs": [
+        {
+            "title": "",
+            "employer": "",
+            "location": "",
+            "duration": "",
+            "body": [
+                ""
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "title": "",
+            "tool": "",
+            "link": "",
+            "body": [
+                ""
+            ]
+        }
+    ]
+}
