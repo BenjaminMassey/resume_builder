@@ -2,6 +2,8 @@ mod data;
 mod document;
 
 fn main() {
+    let company = prompted::input!("Type Company Name: ");
+
     println!("Reading data...");
     let data = data::Data::new(
         &std::fs::read_to_string("data.json")
@@ -9,7 +11,14 @@ fn main() {
     ).expect("Failed to parse data.json data.");
 
     println!("Crafting document...");
-    let mut doc = document::init();
+    let title = format!(
+        "{} {} Resume",
+        data
+            .personal.as_ref().expect("no personal in data")
+            .name.as_ref().expect("no name in personal"),
+        &company,
+    );
+    let mut doc = document::init(&title);
     document::personal_header(
         &mut doc, 
         data.personal.as_ref().expect("no personal in data")
@@ -19,10 +28,17 @@ fn main() {
         doc.push(genpdf::elements::Break::new(0));
         document::job_paragraph(&mut doc, job);
     }
+    doc.push(genpdf::elements::Break::new(1));
+    for project in data.projects.as_ref().expect("no projects in data") {
+        doc.push(genpdf::elements::Break::new(0));
+        document::project_paragraph(&mut doc, project);
+    }
     // TODO: more
 
     println!("Rendering document...");
-    doc.render_to_file("output.pdf").expect("Failed to write PDF file");
+    doc
+        .render_to_file(format!("{}.pdf", title))
+        .expect("Failed to write PDF file");
 
     println!("Completed!");
 }
