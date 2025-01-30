@@ -1,5 +1,6 @@
 mod data;
 mod document;
+mod line;
 
 fn main() {
     let company = prompted::input!("Type Company Name: ");

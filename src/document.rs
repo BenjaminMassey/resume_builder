@@ -1,5 +1,7 @@
+use genpdf::Element;
+
 pub fn init(title: &str) -> genpdf::Document {
-    let font_family = genpdf::fonts::from_files("./fonts", "Roboto", None)
+    let font_family = genpdf::fonts::from_files("./fonts", "RobotoMono", None)
         .expect("Failed to load font family");
     let mut doc = genpdf::Document::new(font_family);
     doc.set_title(title);
@@ -32,16 +34,17 @@ pub fn personal_header(doc: &mut genpdf::Document, personal: &crate::data::Perso
 }
 
 pub fn job_paragraph(doc: &mut genpdf::Document, job: &crate::data::Job) {
-    doc.push(
-        genpdf::elements::Text::new(
-            format!(
-                "{} at {} ({})",
-                job.title.as_ref().expect("no job title"),
-                job.employer.as_ref().expect("no job title"),
-                job.duration.as_ref().expect("no job duration"),
-            )
-        )
+    let header = format!(
+        "{}: {} ({})",
+        job.title.as_ref().expect("no job title"),
+        job.employer.as_ref().expect("no job title"),
+        job.duration.as_ref().expect("no job duration"),
     );
+    doc.push(genpdf::elements::Text::new(&header));
+    doc.push(crate::line::Line {
+        width: header.len() as f32 * 2.55,
+        color: genpdf::style::Color::Rgb(0, 0, 0)
+    });
     for item in job.body.as_ref().expect("no job body elements") {
         doc.push(genpdf::elements::Break::new(0));
         doc.push(
@@ -54,15 +57,16 @@ pub fn job_paragraph(doc: &mut genpdf::Document, job: &crate::data::Job) {
 
 
 pub fn project_paragraph(doc: &mut genpdf::Document, project: &crate::data::Project) {
-    doc.push(
-        genpdf::elements::Text::new(
-            format!(
-                "{} ({})",
-                project.title.as_ref().expect("no project title"),
-                project.tool.as_ref().expect("no project tool"),
-            )
-        )
+    let header = format!(
+        "{} ({})",
+        project.title.as_ref().expect("no project title"),
+        project.tool.as_ref().expect("no project tool"),
     );
+    doc.push(genpdf::elements::Text::new(&header));
+    doc.push(crate::line::Line {
+        width: header.len() as f32 * 2.55,
+        color: genpdf::style::Color::Rgb(0, 0, 0)
+    });
     doc.push(genpdf::elements::Break::new(0));
     doc.push(
         genpdf::elements::Text::new(
