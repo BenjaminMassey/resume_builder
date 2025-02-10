@@ -25,11 +25,15 @@ fn main() {
         data.personal.as_ref().expect("no personal in data")
     );
     doc.push(genpdf::elements::Break::new(1));
+
+    document::heading(&mut doc, "WORK EXPERIENCE");
     for job in data.jobs.as_ref().expect("no jobs in data") {
         doc.push(genpdf::elements::Break::new(0));
         document::job_paragraph(&mut doc, job);
     }
     doc.push(genpdf::elements::Break::new(1));
+    
+    document::heading(&mut doc, "WORKS AND PROJECTS");
     for project in data.projects.as_ref().expect("no projects in data") {
         doc.push(genpdf::elements::Break::new(0));
         document::project_paragraph(&mut doc, project);
