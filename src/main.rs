@@ -32,13 +32,33 @@ fn main() {
         document::job_paragraph(&mut doc, job);
     }
     doc.push(genpdf::elements::Break::new(1));
-    
+
     document::heading(&mut doc, "WORKS AND PROJECTS");
     for project in data.projects.as_ref().expect("no projects in data") {
         doc.push(genpdf::elements::Break::new(0));
         document::project_paragraph(&mut doc, project);
     }
-    // TODO: more
+    doc.push(genpdf::elements::Break::new(1));
+    
+    document::heading(&mut doc, "EDUCATION");
+    for edu in data.education.as_ref().expect("no education in data") {
+        doc.push(genpdf::elements::Break::new(0));
+        document::education_paragraph(&mut doc, edu);
+    }
+    doc.push(genpdf::elements::Break::new(1));
+
+    document::heading(&mut doc, "TECHNICAL SKILLS");
+    document::skills_paragraph(
+        &mut doc,
+        data.skills.as_ref().expect("no skills in data"),
+    );
+    doc.push(genpdf::elements::Break::new(1));
+
+    document::heading(&mut doc, "PUBLICATIONS");
+    for publication in data.publications.as_ref().expect("no publications in data") {
+        doc.push(genpdf::elements::Break::new(0));
+        document::publication_paragraph(&mut doc, publication);
+    }
 
     println!("Rendering document...");
     doc
