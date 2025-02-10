@@ -72,7 +72,7 @@ pub fn project_paragraph(doc: &mut genpdf::Document, project: &crate::data::Proj
         "{} ({})",
         project.title.as_ref().expect("no project title"),
         project.tool.as_ref().expect("no project tool"),
-    );
+    ); // TODO: better than tool, if all one tool
     doc.push(genpdf::elements::Text::new(&header));
     doc.push(crate::line::Line {
         width: header.len() as f32 * PIXELS_PER_CHAR,

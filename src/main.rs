@@ -2,8 +2,11 @@ mod data;
 mod document;
 mod line;
 
+const MAX_PROJECTS: usize = 5;
+
 fn main() {
     let company = prompted::input!("Type Company Name: ");
+    let tool = prompted::input!("Primary Tool: "); // TODO: less rudamentary
 
     println!("Reading data...");
     let data = data::Data::new(
@@ -33,10 +36,19 @@ fn main() {
     }
     doc.push(genpdf::elements::Break::new(1));
 
+    let mut project_count: usize = 0;
     document::heading(&mut doc, "WORKS AND PROJECTS");
     for project in data.projects.as_ref().expect("no projects in data") {
+        if project_count >= MAX_PROJECTS {
+            break;
+        } // TODO: some better choosing than arbitrary first five (or decide fine)
+        if &project.tool.as_ref().expect("no tool for project").to_lowercase()
+            != &tool.to_lowercase() {
+            continue;
+        }
         doc.push(genpdf::elements::Break::new(0));
         document::project_paragraph(&mut doc, project);
+        project_count += 1;
     }
     doc.push(genpdf::elements::Break::new(1));
     
